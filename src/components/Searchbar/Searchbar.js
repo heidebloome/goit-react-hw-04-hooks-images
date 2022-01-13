@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { FiSearch } from "react-icons/fi";
-import { Wrapper, Form, Label, Input } from "./Searchbar.styled";
+import { Header, Form, Input } from "./Searchbar.styled";
 import IconButton from "../IconButton/IconButton";
 
 class Searchbar extends Component {
@@ -29,19 +29,20 @@ class Searchbar extends Component {
     const { searchQuery } = this.state;
 
     return (
-      <Wrapper>
+      <Header>
         <Form onSubmit={this.submitHandler}>
-          <Label>
-            <Input
-              onChange={this.searchQueryChangeHandler}
-              value={searchQuery}
-            ></Input>
-          </Label>
+          <Input
+            onChange={this.searchQueryChangeHandler}
+            value={searchQuery}
+            placeholder="Search images and photos"
+            type="text"
+            autocomplete="off"
+          ></Input>
           <IconButton>
             <FiSearch />
           </IconButton>
         </Form>
-      </Wrapper>
+      </Header>
     );
   }
 }

@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
-export const Wrapper = styled.div`
+export const Header = styled.header`
   width: 100%;
   height: 50px;
 
-  background-color: ${(props) => props.theme.colors.backgroundColor};
+  background: ${(props) => props.theme.colors.gradient};
 `;
 
 export const Form = styled.form`
@@ -22,10 +22,6 @@ export const Form = styled.form`
   @media (min-width: 768px) {
     width: 500px;
   }
-`;
-
-export const Label = styled.label`
-  width: 100%;
 `;
 
 export const Input = styled.input`
