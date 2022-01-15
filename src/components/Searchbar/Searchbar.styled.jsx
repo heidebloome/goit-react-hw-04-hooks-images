@@ -16,8 +16,8 @@ export const Form = styled.form`
   margin-right: auto;
   width: 100%;
   height: 100%;
-  padding-left: 5px;
-  padding-right: 5px;
+  padding-left: ${props => props.theme.spacing(1)};
+  padding-right: ${props => props.theme.spacing(1)};
 
   @media (min-width: 768px) {
     width: 500px;
@@ -28,7 +28,7 @@ export const Input = styled.input`
   width: 100%;
   height: 32px;
   padding: 0;
-  padding-left: 36px;
+  padding-left: ${props => props.theme.spacing(9)};
 
   color: inherit;
 
