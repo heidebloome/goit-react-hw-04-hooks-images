@@ -48,10 +48,12 @@ class ImageGallery extends Component {
       }, 2000)
     }
 
+    // scroll to the new pictures
+    
     if (prevState.pictures.length !== this.state.pictures.length) {
       const list = document.querySelectorAll('#image');
       if (list.length !== 0) {
-        list[list.length - 11].scrollIntoView({
+        list[list.length - 12].scrollIntoView({
           behavior: 'smooth',
           block: 'start',
         });
