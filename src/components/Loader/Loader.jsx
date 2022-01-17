@@ -9,7 +9,7 @@ const Loader = () => {
                         width={100}
                         strokeWidth={5}
                         strokeWidthSecondary={1}
-                        color="lightblue"
+                        color="#76bdd5"
                         secondaryColor="white"
                     />
             </Wrapper>

@@ -4,7 +4,7 @@ export const Header = styled.header`
   width: 100%;
   height: 50px;
 
-  background: ${(props) => props.theme.colors.gradient};
+  background: ${(props) => props.theme.colors.backgroundColor};
 `;
 
 export const Form = styled.form`
@@ -35,14 +35,14 @@ export const Input = styled.input`
   border: none;
   border-radius: 4px;
 
-  transition: border-color 250ms ease-in-out;
+  // transition: border-color 250ms ease-in-out;
 
   &:hover {
     cursor: pointer;
   }
 
   &:focus {
-    border: 1px solid ${(props) => props.theme.colors.textColor};
+    border: 1px solid ${props => props.theme.colors.borderColor};
     outline: none;
   }
 `;

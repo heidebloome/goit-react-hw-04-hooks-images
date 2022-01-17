@@ -1,8 +1,10 @@
 import react from "react";
 
+import { LoadMoreButton } from "./Button.styled";
+
 const Button = ({onClick}) => {
     return (
-        <button type="submit" onClick={onClick}>Load more</button>
+        <LoadMoreButton type="submit" onClick={onClick}>Load more</LoadMoreButton>
     )
 }
 
