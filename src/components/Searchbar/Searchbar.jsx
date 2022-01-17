@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import toast from "react-hot-toast";
 
 import { FiSearch } from "react-icons/fi";
 import { Header, Form, Input } from "./Searchbar.styled";
@@ -15,8 +16,16 @@ class Searchbar extends Component {
 
   submitHandler = (e) => {
     e.preventDefault();
-
-    this.props.onSubmit(this.state.searchQuery);
+    
+    const query = this.state.searchQuery.trim();
+    
+    if (query !== '') {
+      this.props.onSubmit(query);
+    } else {
+      toast.error('Enter a valid query!', {
+        duration: 2000
+      })
+    }
 
     this.reset();
   };

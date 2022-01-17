@@ -15,7 +15,9 @@ code {
     monospace;
 }
 
-ul {
-  list-style: none;
-  padding: 0;
+img {
+  display: block;
+  width: 100%;
+
+  object-fit: cover;
 }

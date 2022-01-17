@@ -1,40 +1,46 @@
 import axios from "axios";
 
-const KEY = "24186443-1921da3d98fb9233d7b210f5d";
-const BASE_URL = "https://pixabay.com/api";
-// const url = `https://pixabay.com/api/?q=${searchQuery}&page=${perPage}&key=${KEY}&per_page=12`;
+const API_KEY = "24186443-1921da3d98fb9233d7b210f5d";
 
-async function getPictures(searchQuery, page) {
-  try {
-    const response = await axios.get(
-      `${BASE_URL}/?q=${searchQuery}&page=${page}&key=${KEY}&per_page=12`
-    );
-    const pictures = await response.data.hits;
-    console.log("1:", pictures);
-    return pictures;
-  } catch (error) {
-    console.log(error);
+export default class API_SERVICE {
+  constructor() {
+    this.searchQuery = "";
+  }
+
+  #pageNumber = 1;
+  #BASE_URL = "https://pixabay.com/api";
+
+  async getImages() {
+    try {
+      const url = `${this.#BASE_URL}/?q=${
+        this.searchQuery
+      }&image_type=photo&page=${this.#pageNumber}&key=${API_KEY}&per_page=12`;
+      const pictures = await axios
+        .get(url)
+        .then((response) => response.data.hits);
+      this.incrementPage();
+      return pictures;
+    } catch (error) {
+      console.log(
+        "Error in api-service in function getImages(): ",
+        error.message
+      );
+    }
+  }
+
+  incrementPage() {
+    this.#pageNumber += 1;
+  }
+
+  resetPage() {
+    this.#pageNumber = 1;
+  }
+
+  get query() {
+    return this.searchQuery;
+  }
+
+  set query(value) {
+    this.searchQuery = value;
   }
 }
-
-export default getPictures;
-
-// export default class ApiService {
-//     #base_url = 'https://pixabay.com/api';
-//     #page = 1;
-
-//     constructor() {
-//         this.searchQuery = '';
-//     }
-
-//     async getPictures(searchQuery, page) {
-//     try {
-//         const response = await axios.get(`${this.#base_url}/?q=${searchQuery}&page=${page}&key=${KEY}&per_page=12`);
-//         const pictures = await response.data.hits;
-//         console.log(pictures);
-//         return pictures;
-//     } catch (error) {
-//         console.log(error)
-//     }
-// }
-// }
