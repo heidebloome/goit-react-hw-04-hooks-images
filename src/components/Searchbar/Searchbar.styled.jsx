@@ -9,18 +9,20 @@ export const Header = styled.header`
 
 export const Form = styled.form`
   position: relative;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left: auto;
-  margin-right: auto;
+
   width: 100%;
   height: 100%;
   padding-left: ${props => props.theme.spacing(1)};
   padding-right: ${props => props.theme.spacing(1)};
-
+  
   @media (min-width: 768px) {
     width: 500px;
+    margin-left: auto;
+    margin-right: auto;
   }
 `;
 
@@ -34,8 +36,6 @@ export const Input = styled.input`
 
   border: none;
   border-radius: 4px;
-
-  // transition: border-color 250ms ease-in-out;
 
   &:hover {
     cursor: pointer;

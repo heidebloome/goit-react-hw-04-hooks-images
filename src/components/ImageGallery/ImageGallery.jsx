@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import toast from "react-hot-toast";
 
+import Infobox from "../Infobox/Infobox";
 import { Gallery } from "./ImageGallery.styled";
 import ImageGalleryItem from "../ImageGalleryItem/ImageGalleryItem";
-import Button from "../Button/Button";
 import Loader from "../Loader/Loader";
-import Infobox from "../Infobox/Infobox";
+import Button from "../Button/Button";
 
 import API_SERVICE from "../../services/api-service";
 const apiService = new API_SERVICE();
@@ -13,81 +13,80 @@ const apiService = new API_SERVICE();
 class ImageGallery extends Component {
   state = {
     pictures: [],
-    status: 'idle',
-    loadMore: false, // status for a loader when we click on a "Load more" button
-    button: false, // status for a "Load more" button
+    status: 'idle', // status for the image gallery
+    loading: false, // status for the Loader when we click on the "Load more" button
+    button: false, // status for the "Load more" button
+    pictureToScrollId: '' // id of the first picture in the new group of pictures to scroll to it
   };
 
-  componentDidUpdate(prevProps, prevState) {
+  async componentDidUpdate(prevProps, prevState) {
     const { searchQuery } = this.props;
+
+    // if we enter a new search query
 
     if (prevProps.searchQuery !== searchQuery) {
       apiService.resetPage();
       apiService.query = searchQuery;
       this.setState({ status: 'pending' });
 
-      setTimeout(async () => {
-        const pictures = await apiService.getImages();
+      const pictures = await apiService.getImages();
+
+      if (typeof (pictures) === 'string') { // if the query returns error message
+        toast.error("Sorry, something went wrong. Try again!");
+        this.setState({ status: 'idle' });
+        return;
+      }
         
-        // if a non-valid word was entered in the query, the query returns an empty array
-
-        if (pictures.length === 0) {
-          toast.error('Please, enter a valid search query!', {
-            duration: 2000
-          });
-          this.setState({ status: 'idle' });
-        } else {
-          this.setState({ pictures: pictures });
-          this.setState({ status: 'resolved' });
-        }
-
-        if (pictures.length === 12) {
-          this.setState({button: true})
-        }
-        
-      }, 2000)
-    }
-
-    // scroll to the new pictures
-
-    if (prevState.pictures.length !== this.state.pictures.length) {
-      const list = document.querySelectorAll('#image');
-      if (list.length !== 0) {
-        list[list.length - 12].scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
+      if (pictures.length === 0) { // if a non-valid word was entered in the query, the query returns an empty array
+        toast.error('Please, enter a valid search query!', {
+          duration: 2000
         });
+        this.setState({ status: 'idle' });
+      } else { // if the query returns an array with pictures (was successfully resolved)
+        this.setState({ pictures });
+        this.setState({ status: 'resolved' });
+
+        if (pictures.length === 12) { // if the query returns 12 pictures we need a button to load more pictures
+          this.setState({ button: true })
+        }
       }
+    }
+
+    if (prevState.pictures.length !== this.state.pictures.length && prevState.pictures.length !== 0) { // scroll to the new pictures
+       document.getElementById(this.state.pictureToScrollId).scrollIntoView({
+         behavior: 'smooth',
+         block: 'start',
+       });
     }
   }
 
-  loadMorePictureBtnHandler = () => {
-    this.setState({ loadMore: true });
+  loadMorePictureBtnHandler = async () => {
+    this.setState({ loading: true });
     this.setState({ button: false });
-    setTimeout(async () => {
-      const newPictures = await apiService.getImages();
 
-      this.setState(prevState => {
+    const newPictures = await apiService.getImages();
+    this.setState({pictureToScrollId: newPictures[0].id})
+
+    this.setState(prevState => {
       return ({ pictures: [...prevState.pictures, ...newPictures] })
-      });
-      this.setState({ loadMore: false });
+    });
 
-      if (newPictures.length === 12) {
-        this.setState({button: true})
-      } else {
-        this.setState({button: false})
-      }
-    }, 2000)
+    this.setState({ loading: false });
 
+    if (newPictures.length === 12) {
+      this.setState({button: true})
+    } else {
+      this.setState({button: false})
+    }
   }
 
-  onImageClickHandler = url => {
+  onImageClickHandler = e => {
     this.props.onImgClick();
-    this.props.activeImgHandler(url);
+    this.props.activeImgUrlHandler(e.target.dataset.url);
   }
 
   render() {
-    const { status, pictures, loadMore, button } = this.state;
+    const { status, pictures, loading, button } = this.state;
 
     if (status === 'idle') {
       return <Infobox />
@@ -99,12 +98,12 @@ class ImageGallery extends Component {
 
     if (status === 'resolved') {
       return (<>
-                <Gallery>
+                <Gallery onClick={this.onImageClickHandler}>
                   {pictures.map((el) => (
-                    <ImageGalleryItem key={el.id} url={el.webformatURL} alt={this.props.searchQuery} bigUrl={el.largeImageURL} onClick={this.onImageClickHandler}/>
+                    <ImageGalleryItem key={el.id} id={el.id} url={el.webformatURL} alt={this.props.searchQuery} largeImgUrl={el.largeImageURL}/>
                   ))}
                 </Gallery>
-                {loadMore && <Loader />}
+                {loading && <Loader />}
                 {button && <Button onClick={this.loadMorePictureBtnHandler} />}
               </>
       )}

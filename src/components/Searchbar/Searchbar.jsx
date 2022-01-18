@@ -7,14 +7,14 @@ import IconButton from "../IconButton/IconButton";
 
 class Searchbar extends Component {
   state = {
-    searchQuery: "",
+    searchQuery: '',
   };
 
-  searchQueryChangeHandler = (e) => {
+  searchQueryHandler = e => {
     this.setState({ searchQuery: e.target.value });
   };
 
-  submitHandler = (e) => {
+  submitFormHandler = e => {
     e.preventDefault();
     
     const query = this.state.searchQuery.trim();
@@ -22,7 +22,7 @@ class Searchbar extends Component {
     if (query !== '') {
       this.props.onSubmit(query);
     } else {
-      toast.error('Enter a valid query!', {
+      toast.error('Enter a valid search query!', {
         duration: 2000
       })
     }
@@ -31,7 +31,7 @@ class Searchbar extends Component {
   };
 
   reset = () => {
-    this.setState({ searchQuery: "" });
+    this.setState({ searchQuery: '' });
   };
 
   render() {
@@ -39,9 +39,9 @@ class Searchbar extends Component {
 
     return (
       <Header>
-        <Form onSubmit={this.submitHandler}>
+        <Form onSubmit={this.submitFormHandler}>
           <Input
-            onChange={this.searchQueryChangeHandler}
+            onChange={this.searchQueryHandler}
             value={searchQuery}
             placeholder="Search images and photos"
             type="text"

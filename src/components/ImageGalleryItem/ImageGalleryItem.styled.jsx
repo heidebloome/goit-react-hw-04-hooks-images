@@ -4,7 +4,7 @@ export const Item = styled.li`
     margin-bottom: ${props => props.theme.spacing(3)};
 
     @media(min-width: 480px) {
-      margin: 0;
+      margin-bottom: 0;
     }
 
     cursor: pointer;
@@ -19,6 +19,6 @@ export const Item = styled.li`
 export const Image = styled.img`
     height: 200px;
 
-      object-fit: cover;
+    object-fit: cover;
 
 `;

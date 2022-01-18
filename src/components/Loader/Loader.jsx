@@ -10,7 +10,7 @@ const Loader = () => {
                         strokeWidth={5}
                         strokeWidthSecondary={1}
                         color="#76bdd5"
-                        secondaryColor="white"
+                        secondaryColor="#ffffff"
                     />
             </Wrapper>
 }

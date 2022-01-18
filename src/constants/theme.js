@@ -4,7 +4,6 @@ export const theme = Object.freeze({
     backgroundColor: "#76bdd5",
     hoverBackgroundColor: "#9dd0e1",
     borderColor: "#949494",
-    textColor: "#666565",
     iconColor: "#808080",
   },
   spacing: (value) => `${4 * value}px`,

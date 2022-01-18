@@ -10,36 +10,35 @@ import Modal from "./components/Modal/Modal";
 class App extends Component {
   state = {
     searchQuery: "",
+    activeImgUrl: "",
     showModal: false,
-    activeImg: "",
   };
 
   searchFormSubmitHandler = (query) => {
     this.setState({ searchQuery: query });
   };
 
+  activeImgUrlHandler = (url) => {
+    this.setState({ activeImgUrl: url });
+  };
+
   toggleModal = () => {
     this.setState(({ showModal }) => ({ showModal: !showModal }));
   };
 
-  activeImageHandler = (url) => {
-    this.setState({ activeImg: url });
-  };
-
   render() {
+    const { searchQuery, activeImgUrl, showModal } = this.state;
+
     return (
       <>
-        <Searchbar
-          onSubmit={this.searchFormSubmitHandler}
-          changeStatus={this.statusHAndler}
-        />
+        <Searchbar onSubmit={this.searchFormSubmitHandler} />
         <ImageGallery
-          searchQuery={this.state.searchQuery}
+          searchQuery={searchQuery}
+          activeImgUrlHandler={this.activeImgUrlHandler}
           onImgClick={this.toggleModal}
-          activeImgHandler={this.activeImageHandler}
         />
-        {this.state.showModal && (
-          <Modal closeModal={this.toggleModal} url={this.state.activeImg} />
+        {showModal && (
+          <Modal closeModal={this.toggleModal} url={activeImgUrl} />
         )}
         <Toaster />
       </>

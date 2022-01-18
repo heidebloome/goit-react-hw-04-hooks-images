@@ -4,13 +4,15 @@ export const Backdrop = styled.div`
     position: fixed;
     top: 0;
     left: 0;
+
     width: 100vw;
     height: 100vh;
+
     background-color: rgba(102, 101, 101, 0.589);
 `;
 
 export const ModalWindow = styled.img`
-    position: fixed;
+    position: absolute;
     top: 50%;
     left: 50%;
 

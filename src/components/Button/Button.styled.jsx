@@ -10,7 +10,6 @@ export const LoadMoreButton = styled.button`
     width: 150px;
     height: 40px;
 
-    // font-weight: bold;
     font-size: 18px;
 
     background-color: ${props => props.theme.colors.backgroundColor};
