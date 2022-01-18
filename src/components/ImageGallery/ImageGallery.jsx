@@ -15,7 +15,7 @@ class ImageGallery extends Component {
     pictures: [],
     status: 'idle',
     loadMore: false, // status for a loader when we click on a "Load more" button
-    button: false // status for a "Load more" button
+    button: false, // status for a "Load more" button
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -49,7 +49,7 @@ class ImageGallery extends Component {
     }
 
     // scroll to the new pictures
-    
+
     if (prevState.pictures.length !== this.state.pictures.length) {
       const list = document.querySelectorAll('#image');
       if (list.length !== 0) {
@@ -81,6 +81,11 @@ class ImageGallery extends Component {
 
   }
 
+  onImageClickHandler = url => {
+    this.props.onImgClick();
+    this.props.activeImgHandler(url);
+  }
+
   render() {
     const { status, pictures, loadMore, button } = this.state;
 
@@ -96,7 +101,7 @@ class ImageGallery extends Component {
       return (<>
                 <Gallery>
                   {pictures.map((el) => (
-                    <ImageGalleryItem key={el.id} url={el.webformatURL} alt={this.props.searchQuery}/>
+                    <ImageGalleryItem key={el.id} url={el.webformatURL} alt={this.props.searchQuery} bigUrl={el.largeImageURL} onClick={this.onImageClickHandler}/>
                   ))}
                 </Gallery>
                 {loadMore && <Loader />}
