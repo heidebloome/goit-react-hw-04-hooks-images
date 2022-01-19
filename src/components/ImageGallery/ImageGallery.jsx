@@ -30,8 +30,8 @@ class ImageGallery extends Component {
      
     // if we load more pictures we need to scroll to the new pictures
 
-    if (prevState.pictures.length !== this.state.pictures.length && prevState.pictures.length !== 0) {
-       document.getElementById(this.state.pictureToScrollId).scrollIntoView({
+     if (prevState.pictures.length !== this.state.pictures.length && prevState.pictures.length !== 0 ) {
+       document.getElementById(this.state.pictureToScrollId)?.scrollIntoView({
          behavior: 'smooth',
          block: 'start',
        });
@@ -56,7 +56,7 @@ class ImageGallery extends Component {
       });
       this.setState({ status: 'idle' });
     } else { // if the query returns an array with pictures (was successfully resolved)
-      this.setState({ pictures, status: 'resolved' });
+      this.setState({ pictures, status: 'resolved', pictureToScrollId: '' });
 
       if (pictures.length === 12) { // if the query returns 12 pictures we need a button to load more pictures
         this.setState({ button: true })
