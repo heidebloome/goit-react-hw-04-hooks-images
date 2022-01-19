@@ -19,44 +19,48 @@ class ImageGallery extends Component {
     pictureToScrollId: '' // id of the first picture in the new group of pictures to scroll to it
   };
 
-  async componentDidUpdate(prevProps, prevState) {
+   componentDidUpdate(prevProps, prevState) {
     const { searchQuery } = this.props;
 
     // if we enter a new search query
 
     if (prevProps.searchQuery !== searchQuery) {
-      apiService.resetPage();
-      apiService.query = searchQuery;
-      this.setState({ status: 'pending' });
-
-      const pictures = await apiService.getImages();
-
-      if (typeof (pictures) === 'string') { // if the query returns error message
-        toast.error("Sorry, something went wrong. Try again!");
-        this.setState({ status: 'idle' });
-        return;
-      }
-        
-      if (pictures.length === 0) { // if a non-valid word was entered in the query, the query returns an empty array
-        toast.error('Please, enter a valid search query!', {
-          duration: 2000
-        });
-        this.setState({ status: 'idle' });
-      } else { // if the query returns an array with pictures (was successfully resolved)
-        this.setState({ pictures });
-        this.setState({ status: 'resolved' });
-
-        if (pictures.length === 12) { // if the query returns 12 pictures we need a button to load more pictures
-          this.setState({ button: true })
-        }
-      }
+      this.getPictures(searchQuery);
     }
+     
+    // if we load more pictures we need to scroll to the new pictures
 
-    if (prevState.pictures.length !== this.state.pictures.length && prevState.pictures.length !== 0) { // scroll to the new pictures
+    if (prevState.pictures.length !== this.state.pictures.length && prevState.pictures.length !== 0) {
        document.getElementById(this.state.pictureToScrollId).scrollIntoView({
          behavior: 'smooth',
          block: 'start',
        });
+    }
+  }
+
+  getPictures = async (query) => {
+    apiService.resetPage();
+    apiService.query = query;
+
+    const pictures = await apiService.getImages();
+
+    if (typeof (pictures) === 'string') { // if the query returns error message
+      toast.error("Sorry, something went wrong. Try again!");
+      this.setState({ status: 'idle' });
+      return;
+    }
+        
+    if (pictures.length === 0) { // if a non-valid word was entered in the query, the query returns an empty array
+      toast.error('Please, enter a valid search query!', {
+        duration: 2000
+      });
+      this.setState({ status: 'idle' });
+    } else { // if the query returns an array with pictures (was successfully resolved)
+      this.setState({ pictures, status: 'resolved' });
+
+      if (pictures.length === 12) { // if the query returns 12 pictures we need a button to load more pictures
+        this.setState({ button: true })
+      }
     }
   }
 
@@ -80,9 +84,9 @@ class ImageGallery extends Component {
     }
   }
 
-  onImageClickHandler = e => {
+  onImageClickHandler = largeImageURL => {
+    this.props.activeImgUrlHandler(largeImageURL);
     this.props.onImgClick();
-    this.props.activeImgUrlHandler(e.target.dataset.url);
   }
 
   render() {
@@ -98,9 +102,16 @@ class ImageGallery extends Component {
 
     if (status === 'resolved') {
       return (<>
-                <Gallery onClick={this.onImageClickHandler}>
+                <Gallery>
                   {pictures.map((el) => (
-                    <ImageGalleryItem key={el.id} id={el.id} url={el.webformatURL} alt={this.props.searchQuery} largeImgUrl={el.largeImageURL}/>
+                    <ImageGalleryItem
+                      key={el.id}
+                      id={el.id}
+                      url={el.webformatURL}
+                      alt={this.props.searchQuery}
+                      largeImgUrl={el.largeImageURL}
+                      onClick={this.onImageClickHandler}
+                    />
                   ))}
                 </Gallery>
                 {loading && <Loader />}
