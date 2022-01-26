@@ -20,7 +20,7 @@ ImageGalleryItem.propTypes = {
     url: PropTypes.string.isRequired,
     largeImgUrl: PropTypes.string.isRequired,
     query: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
     onClick: PropTypes.func.isRequired
 }
 

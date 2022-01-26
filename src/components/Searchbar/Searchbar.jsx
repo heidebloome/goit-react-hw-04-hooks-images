@@ -1,47 +1,39 @@
-import React, { Component } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
+import PropTypes from 'prop-types';
 
 import { FiSearch } from "react-icons/fi";
 import { Header, Form, Input } from "./Searchbar.styled";
 import IconButton from "../IconButton/IconButton";
 
-class Searchbar extends Component {
-  state = {
-    searchQuery: '',
+export default function Searchbar ({onSubmit}) {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const searchQueryHandler = e => {
+    setSearchQuery(e.target.value);
   };
 
-  searchQueryHandler = e => {
-    this.setState({ searchQuery: e.target.value });
-  };
-
-  submitFormHandler = e => {
+  const submitFormHandler = e => {
     e.preventDefault();
     
-    const query = this.state.searchQuery.trim();
+    const query = searchQuery.trim();
     
     if (query !== '') {
-      this.props.onSubmit(query);
+      onSubmit(query);
     } else {
       toast.error('Enter a valid search query!', {
         duration: 2000
       })
     }
 
-    this.reset();
+    setSearchQuery('');
   };
-
-  reset = () => {
-    this.setState({ searchQuery: '' });
-  };
-
-  render() {
-    const { searchQuery } = this.state;
 
     return (
       <Header>
-        <Form onSubmit={this.submitFormHandler}>
+        <Form onSubmit={submitFormHandler}>
           <Input
-            onChange={this.searchQueryHandler}
+            onChange={searchQueryHandler}
             value={searchQuery}
             placeholder="Search images and photos"
             type="text"
@@ -53,7 +45,8 @@ class Searchbar extends Component {
         </Form>
       </Header>
     );
-  }
 }
 
-export default Searchbar;
+Searchbar.propTypes = {
+  onSubmit: PropTypes.func.isRequired
+}

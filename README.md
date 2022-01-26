@@ -1,6 +1,6 @@
 # Image finder website
 
-This website is a homework at GoIT school. There were used Class Components with state, Styled Components, http queries to Pixabay API (with axios).
+This website is a homework at GoIT school. There were used functional components with hooks, Styled Components, http queries to Pixabay API (with axios).
 
 - get images by key word
 - load more pictures (pagination)

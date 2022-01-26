@@ -42,8 +42,8 @@ export default function ImageGallery({ searchQuery, activeImgUrlHandler, onImgCl
           setStatus(STATUS.IDLE);
         } else { // if the query returns an array with pictures (was successfully resolved)
             setPictures(pictures);
-            setStatus(STATUS.RESOLVED);
             setPictureToScrollId('');
+            setStatus(STATUS.RESOLVED);
 
             if (pictures.length === 12) { // if the query returns 12 pictures we need a button to load more pictures
               setButton(true)
@@ -97,10 +97,10 @@ export default function ImageGallery({ searchQuery, activeImgUrlHandler, onImgCl
       <Gallery>
         {pictures.map((el) => (
           <ImageGalleryItem
-            key={el.id}
+            key={pictures.indexOf(el)}
             id={el.id}
             url={el.webformatURL}
-            alt={searchQuery}
+            query={searchQuery}
             largeImgUrl={el.largeImageURL}
             onClick={onImageClickHandler}
           />
