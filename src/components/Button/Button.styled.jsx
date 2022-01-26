@@ -4,6 +4,7 @@ export const LoadMoreButton = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;
+    
     margin-right: auto;
     margin-left: auto;
     margin-bottom: ${props => props.theme.spacing(3)};

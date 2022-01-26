@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import PropTypes from 'prop-types';
 
 import Infobox from "../Infobox/Infobox";
@@ -69,14 +69,14 @@ export default function ImageGallery({ searchQuery, activeImgUrlHandler, onImgCl
     setPictures(state => {
       return [...state, ...newPictures];
     });
-    setPictureToScrollId(newPictures[0].id);
     setLoading(false);
-
+    
     if (newPictures.length === 12) {
       setButton(true);
     } else {
       setButton(false);
     }
+    setPictureToScrollId(newPictures[0].id);
   }
 
   const onImageClickHandler = largeImageURL => {

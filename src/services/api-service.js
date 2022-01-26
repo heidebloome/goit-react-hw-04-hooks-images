@@ -11,7 +11,7 @@ export default class API_SERVICE {
   }
 
   async getImages() {
-    const url = `${this.BASE_URL}/?q=${this.searchQuery}&page=${this.pageNumber}&key=${API_KEY}&per_page=12`;
+    const url = `${this.BASE_URL}/?q=${this.searchQuery}&image_type=photo&page=${this.pageNumber}&key=${API_KEY}&per_page=12`;
     const response = await axios
       .get(url)
       .then((response) => response.data.hits)

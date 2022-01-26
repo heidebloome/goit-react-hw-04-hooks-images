@@ -14,11 +14,11 @@ export const Item = styled.li`
     &:hover {
       transform: scale(1.02);
     }
+    background-color: ${props => props.theme.colors.imgBackgroundColor};
 `; 
 
 export const Image = styled.img`
     height: 200px;
 
     object-fit: cover;
-
 `;
